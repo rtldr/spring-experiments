@@ -11,31 +11,32 @@ import java.util.Map;
 @Service
 public class AuthService {
 
-    public VerifyTokenResponse verifyToken(String email, String token)
+    public void verifyToken(String token)
             throws FirebaseAuthException {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        System.out.println(auth);
-        System.out.println(token);
+        System.out.println("Token: " + token);
+
         // token comes from the client app (shown above)
         FirebaseToken decodedToken = auth.verifyIdToken(token);
-        System.out.println(decodedToken);
+        System.out.println("Decoded: " + decodedToken);
 
         if (decodedToken == null) {
             throw new IllegalArgumentException("Token null");
         }
 
         String tokenEmail = decodedToken.getEmail();
-        if (!tokenEmail.equals(email)) {
-            throw new IllegalArgumentException("This token is not valid for the given email");
-        }
+//        if (!tokenEmail.equals(email)) {
+//            throw new IllegalArgumentException("This token is not valid for the given email");
+//        }
 
         String issuer = decodedToken.getIssuer();
         String name = decodedToken.getName();
         String uid = decodedToken.getUid();
         boolean isEmailVerified = decodedToken.isEmailVerified();
         Map<String, Object> claims = decodedToken.getClaims();
-
-        return new VerifyTokenResponse(email, issuer, name, uid, isEmailVerified, claims);
+        VerifyTokenResponse response =
+                new VerifyTokenResponse(tokenEmail, issuer, name, uid, isEmailVerified, claims);
+        System.out.println(response);
     }
 }
