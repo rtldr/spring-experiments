@@ -15,11 +15,14 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    @GetMapping("verify/email/{email}/token/{token}")
+    @GetMapping(value = "verify/email/{email}")
     public VerifyTokenResponse verifyToken(@PathVariable("email") String email,
-                                           @PathVariable String token) throws FirebaseAuthException {
-        System.out.println("Entered controller with email: " + email + ", tokenRequest: "
+                                           @RequestHeader("token") String token)
+            throws FirebaseAuthException {
+
+        System.out.println("Entered controller with email: " + email + ", token: "
                 + token);
-        return authService.verifyToken(email, token);
+//        return authService.verifyToken(email, token);
+        return null;
     }
 }
