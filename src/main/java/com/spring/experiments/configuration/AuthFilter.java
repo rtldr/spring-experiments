@@ -27,7 +27,7 @@ public class AuthFilter extends HttpFilter {
             authService.verifyToken(token);
             chain.doFilter(request, response);
         } catch (Exception e) {
-            response.sendError(HttpStatus.SC_UNAUTHORIZED, "Not Authorized");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
         }
     }
 }
