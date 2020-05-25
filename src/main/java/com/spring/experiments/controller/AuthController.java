@@ -3,6 +3,7 @@ package com.spring.experiments.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("auth")
 public class AuthController {
 
     private String SUCCESS = "Successfully verified";

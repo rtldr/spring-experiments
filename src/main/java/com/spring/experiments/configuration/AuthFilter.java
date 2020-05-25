@@ -1,7 +1,6 @@
 package com.spring.experiments.configuration;
 
 import com.spring.experiments.service.AuthService;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
