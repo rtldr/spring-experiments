@@ -4,27 +4,30 @@ import com.spring.experiments.service.AuthService;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+public class AuthFilter extends HttpFilter {
 
     @Autowired
     AuthService authService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler){
+    public void doFilter(HttpServletRequest request, HttpServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
+
         String token = request.getHeader("token");
         try {
             authService.verifyToken(token);
-            return true;
+            chain.doFilter(request, response);
         } catch (Exception e) {
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-            return false;
+            response.sendError(HttpStatus.SC_UNAUTHORIZED, "Not Authorized");
         }
     }
 }
