@@ -17,13 +17,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler) throws Exception {
+                             Object handler){
         String token = request.getHeader("token");
         try {
             authService.verifyToken(token);
             return true;
         } catch (Exception e) {
-            response.sendError(HttpStatus.SC_UNAUTHORIZED, "Not authorized");
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             return false;
         }
     }
